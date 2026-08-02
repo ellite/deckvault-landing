@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DeckVault - Know what's on each of your SD cards</title>
+  <meta name="description" content="Track which games are on each of your handheld SD cards and storage devices. Self-hosted, open-source." />
+  <meta name="robots" content="index, follow" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#09090b" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://deckvault.henrique.pt/" />
+  <meta property="og:title" content="DeckVault - Know what's on each of your SD cards" />
+  <meta property="og:description" content="Track which games are on each of your handheld SD cards and storage devices." />
+  <meta property="og:image" content="https://raw.githubusercontent.com/ellite/deckvault/main/screenshots/deckvault.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/ellite/deckvault/main/screenshots/deckvault.png" />
+
+  <link rel="canonical" href="https://deckvault.henrique.pt/" />
+  <link rel="icon" href="https://raw.githubusercontent.com/ellite/deckvault/main/frontend/public/logo.svg" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:     #0d0f1a;
+      --card:   #151722;
+      --border: #1e2235;
+      --text:   #f4f4f5;
+      --muted:  #94a3b8;
+      --dim:    #475569;
+      --blue:   #60a5fa;
+      --blue-dark: #2563eb;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── Nav ── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(1.5rem, 5vw, 4rem);
+      height: 60px;
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: .55rem;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    .nav-logo img { width: 24px; height: 24px; }
+
+    .btn-gh {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      padding: .4rem 1rem;
+      border-radius: 7px;
+      font-size: .85rem;
+      font-weight: 600;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      transition: border-color .15s;
+    }
+    .btn-gh:hover { border-color: var(--dim); }
+
+    /* ── Main ── */
+    main {
+      max-width: 890px;
+      margin: 0 auto;
+      padding: clamp(4rem, 10vw, 6rem) clamp(1.5rem, 5vw, 3rem) clamp(4rem, 10vw, 6rem);
+    }
+
+    .hero {
+      position: relative;
+      margin-bottom: 3rem;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -6rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 400px;
+      background: radial-gradient(ellipse at center, rgba(37,99,235,.2) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero h1, .hero p { position: relative; z-index: 1; }
+
+    h1 {
+      font-size: clamp(1.9rem, 5vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -.03em;
+      line-height: 1.15;
+      margin-bottom: 1.25rem;
+      color: var(--text);
+    }
+
+    h1 .accent {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .lead {
+      font-size: clamp(1.05rem, 2vw, 1.25rem);
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 1rem;
+    }
+
+    .screenshot {
+      margin: 1.5rem 0 2.75rem;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 40px rgba(37,99,235,.15);
+    }
+    .screenshot img {
+      display: block;
+      width: 100%;
+    }
+
+    .caption {
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: .5rem;
+    }
+
+    .link-row {
+      display: flex;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+      justify-content: center;
+    }
+    .link-row a {
+      font-size: .9rem;
+      font-weight: 600;
+      color: var(--blue);
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem;
+      transition: opacity .15s;
+    }
+    .link-row a:hover { opacity: .75; }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.5rem clamp(1.5rem, 5vw, 4rem);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: .45rem;
+      font-size: .85rem;
+      font-weight: 700;
+      color: var(--dim);
+    }
+    .footer-logo img { width: 18px; height: 18px; opacity: .5; }
+    footer p { font-size: .8rem; color: var(--dim); }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="#" class="nav-logo">
+      <img src="https://raw.githubusercontent.com/ellite/deckvault/main/frontend/public/logo.svg" alt="" />
+      DeckVault
+    </a>
+    <a href="https://github.com/ellite/deckvault" target="_blank" rel="noopener noreferrer" class="btn-gh">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
+      GitHub
+    </a>
+  </nav>
+
+  <main>
+
+    <div class="hero">
+      <h1>Self-hosted <span class="accent">Game Library Manager</span> for handheld consoles — track installs across SD cards, HDDs, and SSDs</h1>
+
+      <p class="lead">
+        If you own a handheld with more than one SD card, you've asked yourself this. You want to play something,
+        but you can't remember if it's on the card that's currently in the slot, the one on your desk, or the device storage.
+      </p>
+
+      <p class="lead">
+        DeckVault is a self-hosted app where you add your SD cards, external SSDs, and internal storage,
+        then list which games are on each one.
+      </p>
+    </div>
+
+    <div class="screenshot">
+      <img src="https://raw.githubusercontent.com/ellite/deckvault/main/screenshots/deckvault.png" alt="DeckVault dashboard" width="660" />
+    </div>
+
+    <p class="lead">
+      Game info and cover art are fetched automatically from IGDB, so your library looks good without any manual work.
+    </p>
+
+    <div class="screenshot">
+      <img src="https://raw.githubusercontent.com/ellite/deckvault/main/screenshots/library.png" alt="Game library with IGDB cover art and metadata" width="660" loading="lazy" />
+    </div>
+
+    <p class="lead">
+      And when you want to play something, you'll know exactly which card or drive it's on.
+    </p>
+
+    <div class="screenshot">
+      <img src="https://raw.githubusercontent.com/ellite/deckvault/main/screenshots/storage.png" alt="Per-device view showing which games are on each storage device" width="660" loading="lazy" />
+    </div>
+
+    <div class="link-row">
+      <a href="https://github.com/ellite/deckvault" target="_blank" rel="noopener noreferrer">
+        View on GitHub
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
+      <a href="https://github.com/ellite/deckvault?tab=readme-ov-file#installation" target="_blank" rel="noopener noreferrer">
+        Installation instructions
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
+    </div>
+
+  </main>
+
+  <footer>
+    <div class="footer-logo">
+      <img src="https://raw.githubusercontent.com/ellite/deckvault/main/frontend/public/logo.svg" alt="" />
+      DeckVault
+    </div>
+    <p>Built with ♥ for self-hosters.</p>
+  </footer>
+
+</body>
+</html>
