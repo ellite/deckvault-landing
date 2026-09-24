@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 220" role="img" aria-labelledby="title desc">
+  <title id="title">DeckVault logo</title>
+  <desc id="desc">A game controller inside a violet-to-cyan storage vault.</desc>
+  <defs>
+    <linearGradient id="body" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#c84cf6"/>
+      <stop offset=".47" stop-color="#675cf8"/>
+      <stop offset="1" stop-color="#25c9fa"/>
+    </linearGradient>
+    <linearGradient id="top" x1="0" y1="0" x2="1" y2=".9">
+      <stop stop-color="#7544ed"/>
+      <stop offset=".65" stop-color="#5375fc"/>
+      <stop offset="1" stop-color="#24b9fb"/>
+    </linearGradient>
+    <linearGradient id="knob" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#6186fe"/>
+      <stop offset="1" stop-color="#2ccafb"/>
+    </linearGradient>
+  </defs>
+  <!-- The upper lip and right-hand vault housing are separate from the front face. -->
+  <path fill="url(#top)" d="M43 27 64 10Q69 6 77 6h125q14 0 24 10l16 18q8 9 8 21v38q-15-4-23 9-8 12-8 30 0 19 8 30 8 12 23 9v5q0 19-19 19h-27V65q0-31-31-31H43z"/>
+  <path fill="url(#body)" d="M28 48h145q19 0 19 19v125q0 19-19 19H28q-19 0-19-19V67q0-19 19-19z"/>
+  <ellipse cx="248" cy="132" rx="15" ry="28" fill="url(#knob)"/>
+  <!-- The controller silhouette is deliberately a single smooth shape. -->
+  <path fill="#141330" d="M72 87h57q20 0 30 18 11 19 15 40 5 26-11 32-13 5-24-7l-12-13q-4-5-11-5H85q-7 0-11 5l-12 13q-12 12-25 7-16-6-11-32 4-21 15-40 10-18 31-18z"/>
+  <path fill="#a871fc" d="M58 112a5 5 0 0 1 5-5h5v-5a5 5 0 0 1 10 0v5h5a5 5 0 0 1 0 10h-5v5a5 5 0 0 1-10 0v-5h-5a5 5 0 0 1-5-5z"/>
+  <circle cx="135" cy="105" r="6.5" fill="#a99aff"/>
+  <circle cx="121" cy="120" r="6.5" fill="#817eff"/>
+  <circle cx="149" cy="120" r="6.5" fill="#649eff"/>
+  <circle cx="135" cy="135" r="6.5" fill="#6d9cff"/>
+</svg>
